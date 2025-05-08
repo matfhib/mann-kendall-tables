@@ -7,7 +7,7 @@ mktable_build1 <- function(chemlist, mcl)
 {
   #Frequency of Detection
   df <- as.data.frame(chemlist)
-  colnames(df) <- names
+  colnames(df) <- column_names
   print(as.character(df[1, 'CHEMICAL']))
   freq_of_detect_10yrs <- sum(df$DETECT)
   print(paste('10 year Detection:', freq_of_detect_10yrs, '/', nrow(df)))
@@ -262,19 +262,23 @@ if(nrow(five_years_df) > 0)
   }
 }
 
-res_list <- lapply(gw077_chem_list, mktable_build1, mcl = NULL)
 
+#Running this function
 
+#Make a list of chemicals of interest
 chemicals_list <- c('Arsenic', 'Antimony')
+
+#make a list of corresponding mcls
 mcl <- c(.01, .006 )
 
+#get those chemicals in a list to use in the function 
 chemicals <- c()
 newlist <- list()
 for(i in 1:length(chemicals_list))
 {
 vec <- c(chemicals_list[i])
 chemicals <- c(vec, chemicals)
-chemdf <- gw78chems[chemicals[1]]
+chemdf <- gw078_chem_list[chemicals[1]]
 newlist <- c(newlist, chemdf)
 }
 
