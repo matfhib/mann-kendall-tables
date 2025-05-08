@@ -1,3 +1,7 @@
+# this function takes in the raw datafile, media_type (UF/F), station name,
+#chemical name, and appropriate mcl in order to give the 5 and 10 year trends and 
+#other statistical values recorded in the mann kendall table
+
 library(NADA2)
 
 
@@ -41,3 +45,5 @@ get_trends <- function (data, media_type, station, chemical, mcl)
 }
 
 
+#running this function 
+get_trends(df_raw, "UF", "GW-078", "Antimony", .006);
