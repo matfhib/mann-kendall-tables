@@ -1,8 +1,8 @@
 #this is the only function that is called in the condensed mann kendall table generation function
-
+#updating to test 05/08/2025
 
 mktable <- function(df, mcl)
-  
+
 {
   #Frequency of Detection
   freq_of_detect_10yrs <- sum(df$DETECT)
