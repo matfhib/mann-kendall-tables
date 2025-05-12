@@ -22,6 +22,7 @@ mktable_build1 <- function(chemlist, mcl)
   #print(as.character(df[1, 'CHEMICAL']))
   chemical_name <- as.character(df[1, 'CHEMICAL'])
   units <- c(df[1, "UNITS"])
+  dl <- c(df[1, "DETECT_LIMIT"])
   
   freq_of_detect_10yrs <- sum(df$DETECT)
   #print(paste('10 year Detection:', freq_of_detect_10yrs, '/', nrow(df)))
@@ -301,7 +302,7 @@ mktable_build1 <- function(chemlist, mcl)
   {
     newmcl <- c(mcl)
   }
-  all_results_vector <- c(chemical_name, units, frequency_10yr, frequency_5yr, max_ten, max_five, max_recent, newmcl, exc_ten_for_table, exc_five_for_table, trend_10yr, trend_5yr)
+  all_results_vector <- c(chemical_name, units, frequency_10yr, frequency_5yr, dl, max_ten, max_five, max_recent, newmcl, exc_ten_for_table, exc_five_for_table, trend_10yr, trend_5yr)
   return(all_results_vector)
 }
 
@@ -362,8 +363,8 @@ get_station_chems <- function(station_list, chems_list)
 get_mk_results2 <- function(station_chem_list, mcls)
 { 
 res <- c()
-try <- as.data.frame(t(rep(0, 12)))
-column_names <- c("Chemical", "Units", "10-yr Detection Frequency", "5-yr Detection Frequency", "10-yr Max", "5-yr Max", "2024 Max", "MCL", "10-yr Exceedances", "5-yr Exceedences", "10-yr Trend", "5-yr Trend")
+column_names <- c("Chemical", "Units", "10-yr Detection Frequency", "5-yr Detection Frequency", "Max DL", "10-yr Max", "5-yr Max", "2024 Max", "MCL", "10-yr Exceedances", "5-yr Exceedences", "10-yr Trend", "5-yr Trend")
+try <- as.data.frame(t(rep(0, length(column_names))))
   for(i in 1:length(mcl))
   { 
   res <- as.data.frame(t(mktable_build1(station_chem_list[i], mcls[i]))) 
