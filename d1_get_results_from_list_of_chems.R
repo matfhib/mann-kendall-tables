@@ -36,7 +36,7 @@ get_station_list <- function (data, media_type, station)
   
 gw078_list <- get_station_list(df_raw, "UF", "GW-078")
 
-chemicals_list <- c("Arsenic", "Antimony") 
+chemicals_list <- c("Arsenic", "Antimony", "Boron", "Cadmium", "Calcium", "Chromium") 
 
 get_station_chems <- function(station_list, chems_list)
 {
@@ -54,7 +54,7 @@ return(newlist)
 
 station_and_chems <- get_station_chems(gw078_list, chemicals_list)
 
-mcl <- c(.01, .006 )
+mcl <- c(.01, .006, 'NULL', .005, 'NULL', .1)
 
 get_mk_results <- function(station_chem_list, mcls)
 { 
@@ -66,3 +66,4 @@ get_mk_results <- function(station_chem_list, mcls)
   
 }
 
+get_mk_results(station_and_chems, mcl)
