@@ -263,7 +263,7 @@ if(nrow(five_years_df) > 0)
 }
 
 
-#Running this function
+#Running this function:
 
 #Make a list of chemicals of interest
 chemicals_list <- c('Arsenic', 'Antimony')
