@@ -7,6 +7,7 @@ mcl_df <- read.csv('Q:/WRRP/Working Files_Individuals/Mattie Hibbs/Statistics/MK
  
 library(NADA)
 library(NADA2)
+library(Kendall)
 
 mktable_build1 <- function(chemlist)
   

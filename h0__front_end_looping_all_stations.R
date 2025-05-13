@@ -12,8 +12,8 @@ get_full_table <- function(data, media_type, station_name, mcl_table)
   resdf <- get_mk_results2(station_and_chems)
   return(resdf)
 }
-  
-  
-  
-  resdf[order(resdf$Anagroup), ]
-  stn_list <- get_station_list(df_raw, "UF", "GW-078", mcl_table)
+
+
+
+resdf[order(resdf$Anagroup), ]
+stn_list <- get_station_list(df_raw, "UF", "GW-078", mcl_table)
