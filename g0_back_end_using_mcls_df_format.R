@@ -1,15 +1,14 @@
 mcl_df <- read.csv('Q:/WRRP/Working Files_Individuals/Mattie Hibbs/Statistics/MK Tables/2025 RER MCLs.csv')
-df_red_new <- left_join(df_red, mcl_df, by = "CHEMICAL")
 
 #merged mcl_df with df raw in function #2
 #pulled true mcl out
 #appears in output df; but still working with default mcl = 1
 
-
+ 
 library(NADA)
 library(NADA2)
 
-mktable_build1 <- function(chemlist, mcl)
+mktable_build1 <- function(chemlist)
   
 {
   #Frequency of Detection
@@ -18,9 +17,10 @@ mktable_build1 <- function(chemlist, mcl)
   #print(as.character(df[1, 'CHEMICAL']))
   chemical_name <- as.character(df[1, 'CHEMICAL'])
   units <- c(df[1, "UNITS"])
-  dl <- c(df[1, "DETECT_LIMIT"])
+  dl_column <- c(df[ , "DETECT_LIMIT"])
+  dl <- max(dl_column)
   anagroup <- c(df[1, "ANAGROUP"])
-  truemcl <- c(df[1, "MCL"])
+  mcl <- c(df[1, "MCL"])
   
   freq_of_detect_10yrs <- sum(df$DETECT)
   #print(paste('10 year Detection:', freq_of_detect_10yrs, '/', nrow(df)))
@@ -137,25 +137,32 @@ mktable_build1 <- function(chemlist, mcl)
     }
     
     #Get ten- and five- year exceedences
-    exc_ten = length(which(grepl("TRUE", results_ten_years >= mcl)))
-    #print(paste('Ten Year MCL Exceedances:', exc_ten, '/', n_row_all))
-    exc_ten_for_table = c(paste(exc_ten, '/', n_row_all))
-    if(nrow(five_years_df) < 1)
+    if(is.na(mcl))
     {
+      exc_ten_for_table = c('--')
+      exc_five_for_table = c('--')
+    }
+    else
+    {
+      exc_ten = length(which(grepl("TRUE", results_ten_years >= mcl)))
+      #print(paste('Ten Year MCL Exceedances:', exc_ten, '/', n_row_all))
+      exc_ten_for_table = c(paste(exc_ten, '/', n_row_all))
+      if(nrow(five_years_df) < 1)
+      {
       five_year_results <- NA
       
       #print('Five year MCL Exceedance: --')
       exc_five_for_table = c('--')
-    }
+      }
     
-    else
-    {
+      else
+      {
       exc_five = length(which(grepl("TRUE", five_year_results >= mcl)))
       #print(paste('Five Year MCL Exceedances:', exc_five, '/', n_row_all_5))
       exc_five_for_table <- c(paste(exc_five, '/', n_row_all_5))
+      }
+    
     }
-    
-    
     
     
     
@@ -302,7 +309,7 @@ mktable_build1 <- function(chemlist, mcl)
     trend_10yr <- c('--')
     trend_5yr <- c('--')
   }
-  if (mcl == 'NULL')
+  if (is.na(mcl))
   {
     newmcl <- c('--')
   }
@@ -310,7 +317,7 @@ mktable_build1 <- function(chemlist, mcl)
   {
     newmcl <- c(mcl)
   }
-  all_results_vector <- c(anagroup, chemical_name, truemcl, units, frequency_10yr, frequency_5yr, dl, max_ten, max_five, max_recent, newmcl, exc_ten_for_table, exc_five_for_table, trend_10yr, trend_5yr)
+  all_results_vector <- c(anagroup, chemical_name, units, frequency_10yr, frequency_5yr, dl, max_ten, max_five, max_recent, newmcl, exc_ten_for_table, exc_five_for_table, trend_10yr, trend_5yr)
   return(all_results_vector)
 }
 
@@ -370,14 +377,14 @@ get_station_chems <- function(station_list, chems_list)
 }
 
 
-get_mk_results2 <- function(station_chem_list, mcls)
+get_mk_results2 <- function(station_chem_list)
 { 
   res <- c()
-  column_names <- c("Anagroup", "Chemical", "True MCL", "Units", "10-yr Detection Frequency", "5-yr Detection Frequency", "Max DL", "10-yr Max", "5-yr Max", "2024 Max", "MCL", "10-yr Exceedances", "5-yr Exceedences", "10-yr Trend", "5-yr Trend")
+  column_names <- c("Anagroup", "Chemical", "Units", "10-yr Detection Frequency", "5-yr Detection Frequency", "Max DL", "10-yr Max", "5-yr Max", "2024 Max", "MCL", "10-yr Exceedances", "5-yr Exceedences", "10-yr Trend", "5-yr Trend")
   try <- as.data.frame(t(rep(0, length(column_names))))
-  for(i in 1:length(mcl))
+  for(i in 1:length(station_chem_list))
   { 
-    res <- as.data.frame(t(mktable_build1(station_chem_list[i], mcls[i]))) 
+    res <- as.data.frame(t(mktable_build1(station_chem_list[i]) ))
     try <- rbind(try, res)
   }
   colnames(try) <- c(column_names)
