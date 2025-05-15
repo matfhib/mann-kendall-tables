@@ -4,7 +4,7 @@ mcl_df <- read.csv('Q:/WRRP/Working Files_Individuals/Mattie Hibbs/Statistics/MK
 #pulled true mcl out
 #appears in output df; but still working with default mcl = 1
 
- 
+#1. 
 library(NADA)
 library(NADA2)
 library(Kendall)
@@ -334,8 +334,8 @@ get_station_list <- function (data, media_type, station, mcldf)
   df_red_f <- as.data.frame(df_red_by_media["Filtered Groundwater"])
   df_red_uf <- as.data.frame(df_red_by_media["Unfiltered Groundwater"])
   names <- colnames(df_red)
-  colnames(df_red_f) <- c(names)
-  colnames(df_red_uf) <- names
+  colnames(df_red_f) <- c(new_names)
+  colnames(df_red_uf) <- c(new_names)
   if(media_type == "F")
   {
     newdf <- df_red_f
