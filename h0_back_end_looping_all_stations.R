@@ -68,3 +68,16 @@ get_station_list2 <- function (data, media_type, station, mcldf)
   
 }
 
+get_station_chems <- function(station_list, chems_list)
+{
+  chemicals <- c()
+  newlist <- list()
+  for(i in 1:length(chems_list))
+  {
+    vec <- c(chems_list[i])
+    chemicals <- c(vec, chemicals)
+    chemdf <- station_list[chemicals[1]]
+    newlist <- c(newlist, chemdf)
+  }
+  return(newlist)
+}
