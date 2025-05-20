@@ -6,6 +6,21 @@ split_by_chem_fun <- function(somelist)
   lapply(somelist, function(x) split(x, as.factor(x$CHEMICAL)))
 }
 
+
+get_station_chems <- function(station_list, chems_list)
+{
+  chemicals <- c()
+  newlist <- list()
+  for(i in 1:length(chems_list))
+  {
+    vec <- c(chems_list[i])
+    chemicals <- c(vec, chemicals)
+    chemdf <- station_list[chemicals[1]]
+    newlist <- c(newlist, chemdf)
+  }
+  return(newlist)
+}
+
 #2. get_stations_list
 library(dplyr)
 get_station_list2 <- function (data, media_type, station, mcldf)
@@ -24,7 +39,7 @@ get_station_list2 <- function (data, media_type, station, mcldf)
   #check that media type is not NULL
   if(length(media_type) > 0)
   {
-  #if only one mediat type is selected
+  #if only one media type is selected
    if(length(media_type)==1)
    {
      if(media_type == "F")
@@ -46,13 +61,13 @@ get_station_list2 <- function (data, media_type, station, mcldf)
      station_chem_split <- split(station_df, as.factor(station_df$CHEMICAL))
      return(station_chem_split)
    }
-    else
-    {
-      #split original df by station
-      df_red$STATION <- as.factor(df_red$STATION)
-      df_red_split_by_stn <- split(df_red, df_red$STATION)
-      df_split_stn_media <- lapply(df_red_split_by_stn, function(x) split(x, as.factor(x$MEDIA)))
-      df_split_stn_media_chem <- lapply(few, split_by_chem_fun)
+  else
+  {
+    #split original df by station
+    df_red$STATION <- as.factor(df_red$STATION)
+    df_red_split_by_stn <- split(df_red, df_red$STATION)
+    df_split_stn_media <- lapply(df_red_split_by_stn, function(x) split(x, as.factor(x$MEDIA)))
+    df_split_stn_media_chem <- lapply(df_split_stn_media, split_by_chem_fun)
       
       
       return(df_split_stn_media_chem)
