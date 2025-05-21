@@ -3,6 +3,8 @@ library(NADA)
 library(NADA2)
 library(Kendall)
 
+new_names <- c(colnames(df_raw[1:19]), colnames(mcl_df[2:4]))
+
 mktable_build1 <- function(chemlist)
   
 {

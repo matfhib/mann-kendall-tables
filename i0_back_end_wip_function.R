@@ -1,5 +1,7 @@
 #getting the stations of interest first from the comprehensive list of all stations, media types, then chems. WIP
 
+library(dplyr)
+
 get_stations <- function (stations_of_interest, comp_list)
 {
   list_of_stations <- list()
@@ -11,9 +13,12 @@ get_stations <- function (stations_of_interest, comp_list)
   }
   return(list_of_stations)
 }
+split_by_chem_fun <- function(somelist)
+{
+  lapply(somelist, function(x) split(x, as.factor(x$CHEMICAL)))
+}
 
-
-
+ 
 wip <- function (data, mcldf, stations_of_interest)
 {
   
@@ -116,22 +121,6 @@ get_station_chems <- function(station_list, chems_list)
   
 }
 
-
-
-
-
-
-
-
-
-
-df_red$MEDIA <- as.factor(df_red$MEDIA)
-df_red_by_media <- split(df_red, df_red$MEDIA) 
-df_red_f <- as.data.frame(df_red_by_media["Filtered Groundwater"])
-df_red_uf <- as.data.frame(df_red_by_media["Unfiltered Groundwater"])
-names <- colnames(df_red)
-colnames(df_red_f) <- c(new_names)
-colnames(df_red_uf) <- c(new_names)
 
 
 
